@@ -1,5 +1,4 @@
-# DICE
-# Project Title
+# ICLR-2025-DICE
 
 This project conducts three kinds of experiments and provides a reproducible experimental environment. The following is a detailed guide on how to install dependencies and run the experiments.
 
