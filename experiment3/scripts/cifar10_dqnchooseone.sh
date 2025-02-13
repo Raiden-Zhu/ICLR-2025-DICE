@@ -1,0 +1,1 @@
+python /ML-A100/team/mm/liwenhao/decentral_2/DecentralizedSGD/main.py --dataset_name "CIFAR10" --image_size 56 --batch_size 64 --mode "dqn_chooseone" --size 16 --lr 0.1 --model "ResNet18_M" --warmup_step 60 --milestones 2400 4800 --early_stop 6000 --epoch 6000 --seed 666 --pretrained 1 --device 0
