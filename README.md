@@ -79,7 +79,7 @@ ICLR-2025-DICE/
 
 ### Citation
 
-Please consider citing our paper if you find this repo useful in your work😀
+Please consider citing our paper if you find this repo useful in your work 😀.
 
 ```
 @inproceedings{
@@ -94,5 +94,4 @@ url={https://openreview.net/forum?id=2TIYkqieKw}
 
 ### Contact
 
-If you have any questions, please feel free to open an issue or contact via email at _raiden@zju.edu.cn
-_.
+If you have any questions, please feel free to open an issue or contact via email at raiden@zju.edu.cn.
