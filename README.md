@@ -1,4 +1,7 @@
-# ICLR-2025-DICE
+# [ICLR 2025] _DICE: Data Influence Cascade in Decentralized Learning_
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Faaron_lou%2Fstatus%2F1646528998594482176%3Fs%3D20)](https://x.com/Raiden13238619/status/1882111164735512790)
 
 This project conducts three kinds of experiments and provides a reproducible experimental environment. The following is a detailed guide on how to install dependencies and run the experiments.
 
