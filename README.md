@@ -6,8 +6,7 @@ This project conducts three kinds of experiments and provides a reproducible exp
 - [Installation](#installation)
 - [Running Experiments](#running-experiments)
 - [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
+- [Citation](#Citation)
 
 ## Installation
 ### Prerequisites
@@ -75,7 +74,7 @@ ICLR-2025-DICE/
 
 ### Citation
 
-Please cite our paper if you find this repo useful in your work:
+Please consider citing our paper if you find this repo useful in your work😀
 
 ```
 @inproceedings{
