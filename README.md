@@ -11,6 +11,7 @@ This project conducts three kinds of experiments and provides a reproducible exp
 - [Project Structure](#project-structure)
 - [Arxiv Link](https://openreview.net/forum?id=2TIYkqieKw)
 - [Citation](#Citation)
+- [Contact Information](#Contact)
 
 ## Installation
 ### Prerequisites
@@ -90,3 +91,8 @@ year={2025},
 url={https://openreview.net/forum?id=2TIYkqieKw}
 }
 ```
+
+### Contact
+
+If you have any questions, please feel free to open an issue or contact via email at _raiden@zju.edu.cn
+_.
