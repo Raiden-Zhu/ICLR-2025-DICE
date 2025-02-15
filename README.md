@@ -72,3 +72,18 @@ ICLR-2025-DICE/
 ├── requirements.txt
 └── README.md
 ```
+
+### Citation
+
+Please cite our paper if you find this repo useful in your work:
+
+```
+@inproceedings{
+zhu2025dice,
+title={{DICE}: Data Influence Cascade in Decentralized Learning},
+author={Tongtian Zhu and Wenhao Li and Can Wang and Fengxiang He},
+booktitle={The Thirteenth International Conference on Learning Representations},
+year={2025},
+url={https://openreview.net/forum?id=2TIYkqieKw}
+}
+```
