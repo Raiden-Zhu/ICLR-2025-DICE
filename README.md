@@ -30,7 +30,7 @@ pip install -r requirements.txt
 ## Running Experiments
 This project contains three sets of experiments, each corresponding to a different directory. You can run the experiments by following these steps:
 
-### Experiment 1
+### Experiment 1 (Influence Alignment)
 The purpose of this experiment is to calculate the actual and estimated values of the data influence under specific experimental conditions. The calculation results will be written into the corresponding JSON files in the `experiment1/loss_record` folder.
 Navigate to the `experiment1` directory and execute the `run.sh` script:
 ```bash
@@ -39,7 +39,7 @@ bash run_repeat.sh
 ```
 The results of Experiment 1 will be generated after the script finishes execution.
 
-### Experiment 2
+### Experiment 2 (Anomaly Detection)
 The purpose of this experiment is to calculate the influence indicators of normal nodes and abnormal nodes. The calculation results will be written into the corresponding JSON files in the `experiment2/loss_record` folder.
 Similarly, for Experiment 2, move to the `experiment2` directory and run the `run.sh` script:
 ```bash
@@ -48,7 +48,7 @@ bash run_repeat.sh
 ```
 The corresponding results will be available once the script completes.
 
-### Experiment 3
+### Experiment 3 (Influence Cascade)
 The purpose of this experiment is to calculate the influence values of specific nodes on multi - level neighbors. The calculation results will be written into the corresponding JSON files in the `experiment3/loss_record` folder.
 To run Experiment 3, enter the `experiment3` directory and execute the `run.sh` script:
 ```bash
