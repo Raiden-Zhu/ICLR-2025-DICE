@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# 定义要运行的 Python 文件路径
+# Define the path to the Python file to run
 PYTHON_FILE="./main_new.py"
 export https_proxy=http://9.131.113.25:11113
-# 定义参数范围
+
+# Define parameter ranges
 param1_range=(0 1) # choose node
 param2_range=(0 1) # choose batch
 node_datasize=100
@@ -19,7 +20,8 @@ image_size=28
 pretrained=0
 adam=false
 log_file="./log/output_${size}_${dataset_name}__${node_datasize}_${mode}_${epochs}_${cuda}_${model}_${nonIID}_${pretrained}_adam${adam}.log"
-# 运行 Python 文件十次，每次传递不同的参数
+
+# Run the Python file multiple times, each with different parameters
 for param1 in "${param1_range[@]}"
 do
     for param2 in "${param2_range[@]}"
