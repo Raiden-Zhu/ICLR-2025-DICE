@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# 定义要运行的 Python 文件路径
+# Define the path to the Python file to run
 PYTHON_FILE="./main_new.py"
 
-# 定义参数范围
+# Set hyperparameters
 param1_range=(0) # choose node
 param2_range=(0 1) # choose batch
 node_datasize=50
@@ -19,7 +19,8 @@ choose_epoch=1
 pretrained=0
 image_size=28
 log_file="./log/output__${size}_${dataset_name}_${mode}_${epochs}_${cuda}_${model}_${nonIID}_${choose_epoch}_pretrained${pretrained}.log"
-# 运行 Python 文件十次，每次传递不同的参数
+
+# Run the Python file multiple times, each with different parameters
 for param1 in "${param1_range[@]}"
 do
     for param2 in "${param2_range[@]}"
