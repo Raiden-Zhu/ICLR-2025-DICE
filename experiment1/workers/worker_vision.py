@@ -38,7 +38,7 @@ class Worker_Vision:
     def update_iter(self):
         self.train_loader_iter = self.train_loader.__iter__()
 
-    # 需要计算出choose node 对 choose batch 的 loss的梯度
+
     def step(self, probe_valid_loader):
         self.model.train()
         try:
@@ -62,10 +62,7 @@ class Worker_Vision:
             params1 = list(self.model.parameters())
             self.grads_after_choosebatch = [p.grad for p in params1 if p.grad is not None] 
            
-            # self.grads_after_choosebatch = []
-            # for name, param in self.model.named_parameters():
-                # if 'fc' in name:
-                    # self.grads_after_choosebatch.append(param.grad)
+      
                 
         elif self.current_batch_index == self.choose_batch and self.rank == self.choose_node and self.train_to_end == True:
             pass
@@ -80,11 +77,11 @@ class Worker_Vision:
             loss.backward()
     
     def eval(self, valid_loader, loss_mode):
-        # loss mode 为 0 ，计算 z' theta t + 1/2 
-        # loss mode 为 1 , 计算 z' theta t ，计算梯度
-        # loss mode 为2 ， 计算z ' theta k/j t+1 
+        # loss mode  0 ， z' theta t + 1/2 
+        # loss mode  1 ,  z' theta t ，计算梯度
+        # loss mode 2 ， z ' theta k/j t+1 
      
-        # loss mode 为4， 计算 loss at end
+        # loss mode 4，  loss at end
         total_loss, total_correct, total, step = 0, 0, 0, 0
         total_loss_sum = torch.tensor(0.0, device=self.device)
         for batch in valid_loader:

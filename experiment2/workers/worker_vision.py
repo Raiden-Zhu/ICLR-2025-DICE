@@ -40,7 +40,7 @@ class Worker_Vision:
     def update_iter(self):
         self.train_loader_iter = self.train_loader.__iter__()
 
-    # 需要计算出choose node 对 choose batch 的 loss的梯度
+ 
     def step(self, probe_valid_loader):
         self.model.train()
         try:
@@ -49,7 +49,7 @@ class Worker_Vision:
             batch = self.train_loader_iter.__next__()
             self.current_batch_index += 1
         except StopIteration:
-            print("迭代结束")
+            print("iteration stop")
         if self.now_epoch == self.choose_epoch and self.current_batch_index == self.choose_batch and self.rank == self.choose_node and self.train_to_end == False:
             # self.eval(probe_valid_loader, 1)
            
@@ -57,7 +57,7 @@ class Worker_Vision:
                 self.statedict_before_batch = copy.deepcopy(self.model.state_dict())
                 self.data, self.target = batch[0].to(self.device), batch[1].to(self.device)
                 perm = torch.randperm(self.target.size(0))
-                # 打乱 target
+                # shuffle target lables
                 self.target = self.target[perm]
                 output = self.model(self.data)
                 if not isinstance(output, torch.Tensor):
@@ -71,11 +71,9 @@ class Worker_Vision:
                 self.statedict_before_batch = copy.deepcopy(self.model.state_dict())
                 self.data, self.target = batch[0].to(self.device), batch[1].to(self.device)
                 
-                noise_std = 100  # 噪声的标准差
+                noise_std = 100 
                 noise = torch.randn_like(self.data) * noise_std
                 self.data = self.data + noise
-                
-                # 打乱 target
               
                 output = self.model(self.data)
                 if not isinstance(output, torch.Tensor):
@@ -106,11 +104,11 @@ class Worker_Vision:
             loss.backward()
     
     def eval(self, valid_loader, loss_mode):
-        # loss mode 为 0 ，计算 z' theta t + 1/2 
-        # loss mode 为 1 , 计算 z' theta t ，计算梯度
-        # loss mode 为2 ， 计算z ' theta k/j t+1 
+        # loss mode  0 ， z' theta t + 1/2 
+        # loss mode  1 ,  z' theta t ，
+        # loss mode 2 ， z ' theta k/j t+1 
      
-        # loss mode 为4， 计算 loss at end
+        # loss mode 4，  loss at end
         total_loss, total_correct, total, step = 0, 0, 0, 0
         total_loss_sum = torch.tensor(0.0, device=self.device)
         for batch in valid_loader:
@@ -135,7 +133,7 @@ class Worker_Vision:
             self.loss_mode0.append(total_loss / step)
         elif loss_mode == 2:
             self.loss_mode2.append(total_loss / step)
-            # mode为3不会被激活
+            # mode3 not used
         elif loss_mode == 3:
             self.loss_mode3.append(total_loss / step)
         elif loss_mode == 4:
@@ -154,9 +152,6 @@ class Worker_Vision:
         batch = self.train_loader_iter.__next__()
         data, target = batch[0].to(self.device), batch[1].to(self.device)
         self.model(data)
-        # loss = criterion(output, target)
-        # self.optimizer.zero_grad()
-        # loss.backward()
 
     def step_csgd(self):
         self.model.train()

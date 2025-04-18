@@ -2,7 +2,6 @@
 
 # Define the path to the Python file to run
 PYTHON_FILE="./main_new.py"
-export https_proxy=http://9.131.113.25:11113
 
 # Define parameter ranges
 param1_range=(0 1) # choose node

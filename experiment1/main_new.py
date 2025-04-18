@@ -171,14 +171,8 @@ def main(
             milestones=args.milestones,
             gamma=args.gamma,
         )
-        # worker是训练器
-        if args.amp:
-            worker = Worker_Vision_AMP(
-                model, rank, optimizer, scheduler, train_loader, args.device
-            )
-        else:
-            
-            worker = Worker_Vision(
+    
+        worker = Worker_Vision(
                 model, rank, optimizer, scheduler, train_loader, args.device, args.choose_node, args.choose_batch, args.size,
                 args.train_to_end
             )
@@ -194,7 +188,7 @@ def main(
     valid_acc_list = []
     train_acc_list = []
     for iteration in trange(steps):
-        # 这里的epoch是平均epoch
+      
         current_epoch = iteration // (
             sum(trainloader_length_list) / len(trainloader_length_list)
         )
@@ -255,7 +249,7 @@ if __name__ == "__main__":
 
     # 定义参数字典
     params = {
-        "dataset_path": "/mnt/csp/mmvision/home/lwh/FLASH-RL/data",
+        "dataset_path": "./data",
         "dataset_name": sys.argv[6],
         "image_size": int(sys.argv[12]),
         "batch_size": int(sys.argv[4]),

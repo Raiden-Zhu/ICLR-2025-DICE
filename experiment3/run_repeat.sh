@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the path to the Python file to run
-PYTHON_FILE="/mnt/csp/mmvision/home/lwh/DLS_2/main_new.py"
+PYTHON_FILE="./main_new.py"
 
 # Define parameter ranges
 param1_range=(0) # choose node
@@ -17,7 +17,7 @@ model=resnet
 nonIID=false
 choose_epoch=5
 
-log_file="/mnt/csp/mmvision/home/lwh/DLS_2/log/output_${dataset_name}_${mode}_${epochs}_${cuda}_${model}_${nonIID}_${choose_epoch}.log"
+log_file="./log/output_${dataset_name}_${mode}_${epochs}_${cuda}_${model}_${nonIID}_${choose_epoch}.log"
 
 # Run the Python file multiple times, each with different parameters
 for param1 in "${param1_range[@]}"

@@ -414,16 +414,16 @@ def update_dqn_chooseone_debug(worker_list, center_model):
 def random_p(size):
     P = torch.zeros((size, size))
     P.fill_diagonal_(0.5) 
-    # 在每一行随机选择一个其他位置设置为 0.5
+   
     for i in range(size):
-        # 随机选择一个列索引，但不能是当前行的对角线位置
+       
         random_col = random.choice([j for j in range(size) if j != i])
         P[i, random_col] = 0.5
     return P
         
 
 def update_dsgd(worker_list, P, args, probe_valid_loader):
-    # 如果 P为NONe，说明是随机选择worker
+
     if P is None:
         P = random_p(args.size)
         
@@ -612,13 +612,13 @@ def save_model(center_model, train_acc, epoch, args, log_id):
 def writein_file(acc, name, rank):
     run_path = "/mnt/nas/share2/home/lwh/DLS/variable_record/"
     if not os.path.exists(run_path):
-    # 如果文件夹不存在，则创建它
+ 
         os.makedirs(run_path)
         print(f"Folder '{run_path}' created.")
     
     file_path = os.path.join(run_path, name)
     if not os.path.exists(file_path):
-    # 如果文件夹不存在，则创建它
+   
         os.makedirs(file_path)
         print(f"Folder '{file_path}' created.")
     
@@ -650,13 +650,13 @@ def second_largest_index(lst):
     if len(lst) < 2:
         raise ValueError("列表中至少需要有两个元素")
 
-    # 初始化最大值和第二大值
+  
     max_value = max(lst[0], lst[1])
     second_max_value = min(lst[0], lst[1])
     max_index = lst.index(max_value)
     second_max_index = lst.index(second_max_value)
 
-    # 遍历列表找到第二大的元素
+ 
     for i in range(2, len(lst)):
         if lst[i] > max_value:
             second_max_value = max_value
@@ -670,11 +670,11 @@ def second_largest_index(lst):
     return second_max_index
 
 def get_sorted_indices(lst):
-    # 使用 enumerate 获取元素及其索引的元组列表
+  
     indexed_list = list(enumerate(lst))
-    # 按元素值从大到小排序
+   
     sorted_indexed_list = sorted(indexed_list, key=lambda x: x[1], reverse=True)
-    # 提取排序后的索引
+   
     sorted_indices = [index for index, value in sorted_indexed_list]
     return sorted_indices
   
@@ -692,7 +692,7 @@ def choose_merge(worker, eval_result, model_dict_list, history, pointer, second_
         return max_index
 
 def record_info(eval_all, action, choose_which):
-    # 打开一个文件以进行写入操作（如果文件不存在，会创建新文件；如果文件存在，会覆盖原有内容）
+  
     with open(f'/mnt/csp/mmvision/home/lwh/DLS/heuristic2_record_choose{choose_which}.json', 'a') as file:
         content = {"eval": eval_all, "worker0": action[0], "worker1": action[1], "worker2": action[2], "worker3": action[3], "worker4": action[4]}
         json.dump(content, file, indent=4)
@@ -813,10 +813,7 @@ def compute_loss_every_node(loss):
     
 def read_json_file(file_path):
     """
-    读取 JSON 文件并返回其内容。
-    
-    :param file_path: JSON 文件路径
-    :return: JSON 文件内容（字典或列表）
+   
     """
     with open(file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)

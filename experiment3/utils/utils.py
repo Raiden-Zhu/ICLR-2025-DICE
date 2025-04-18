@@ -271,82 +271,64 @@ def eval_vision_amp(model, train_loader, valid_loader, epoch, iteration, tb, dev
     return total_train_acc, total_train_loss, total_valid_acc, total_valid_loss
 
 def get_secondneighbor(self_rank, neighbormatrix):
-    # 确保 neighbormatrix 是一个 16x16 的张量
-    assert neighbormatrix.shape == (16, 16), "neighbormatrix 必须是 16x16 的张量"
+    assert neighbormatrix.shape == (16, 16), "neighbormatrix have to be 16x16"
 
-    # 找到 self_rank 的一阶邻居
     first_neighbors = torch.nonzero(neighbormatrix[:, self_rank], as_tuple=True)[0]
 
-    # 初始化结果字典
+  
     second_neighbor_dict = {}
 
-    # 遍历每个一阶邻居
+ 
     for first_neighbor in first_neighbors:
-        # if first_neighbor == self_rank:
-            # continue
-        # 找到一阶邻居的邻居（二阶邻居）
+
         second_neighbors = torch.nonzero(neighbormatrix[:, first_neighbor], as_tuple=True)[0]
 
-        # 过滤掉 self_rank 本身（避免将自身作为二阶邻居）
-        # second_neighbors = second_neighbors[second_neighbors != first_neighbor]
 
-        # 构建二阶邻居的权重字典
+
         second_neighbor_weights = {
-            int(neighbor): float(neighbormatrix[neighbor, first_neighbor])  # 转换为 Python 原生类型
+            int(neighbor): float(neighbormatrix[neighbor, first_neighbor])
             for neighbor in second_neighbors
         }
 
-        # 将结果添加到外层字典
         second_neighbor_dict[int(first_neighbor)] = second_neighbor_weights
 
     return second_neighbor_dict
 
 def get_thirdneighbor(self_rank, neighbormatrix):
-    # 确保 neighbormatrix 是一个 16x16 的张量
+
     assert neighbormatrix.shape == (16, 16), "neighbormatrix 必须是 16x16 的张量"
 
-    # 找到 self_rank 的一阶邻居
+  
     first_neighbors = torch.nonzero(neighbormatrix[:, self_rank], as_tuple=True)[0]
 
-    # 初始化结果字典
+  
     third_neighbor_dict = {}
 
-    # 遍历每个一阶邻居
-    for first_neighbor in first_neighbors:
-        # if first_neighbor == self_rank:
-            # continue
 
-        # 找到一阶邻居的邻居（二阶邻居）
+    for first_neighbor in first_neighbors:
+     
+        
         second_neighbors = torch.nonzero(neighbormatrix[:, first_neighbor], as_tuple=True)[0]
 
-        # 过滤掉 self_rank 本身（避免将自身作为二阶邻居）
-        # second_neighbors = second_neighbors[second_neighbors != first_neighbor]
-
-        # 初始化二阶邻居的字典
+    
         second_neighbor_dict = {}
 
-        # 遍历每个二阶邻居
+  
         for second_neighbor in second_neighbors:
             
 
-            # 找到二阶邻居的邻居（三阶邻居）
+         
             third_neighbors = torch.nonzero(neighbormatrix[:, second_neighbor], as_tuple=True)[0]
 
-            # 过滤掉 self_rank、一阶邻居和二阶邻居
-            # third_neighbors = third_neighbors[
-                # (third_neighbors != second_neighbor)
-            # ]
-
-            # 构建三阶邻居的权重字典
             third_neighbor_weights = {
-                int(neighbor): float(neighbormatrix[neighbor, second_neighbor])  # 转换为 Python 原生类型
+                int(neighbor): float(neighbormatrix[neighbor, second_neighbor]) 
                 for neighbor in third_neighbors
             }
 
-            # 将结果添加到二阶邻居的字典
+       
             second_neighbor_dict[int(second_neighbor)] = third_neighbor_weights
 
-        # 将结果添加到外层字典
+      
         third_neighbor_dict[int(first_neighbor)] = second_neighbor_dict
 
     return third_neighbor_dict
@@ -581,16 +563,16 @@ def update_dqn_chooseone_debug(worker_list, center_model):
 def random_p(size):
     P = torch.zeros((size, size))
     P.fill_diagonal_(0.5) 
-    # 在每一行随机选择一个其他位置设置为 0.5
+
     for i in range(size):
-        # 随机选择一个列索引，但不能是当前行的对角线位置
+     
         random_col = random.choice([j for j in range(size) if j != i])
         P[i, random_col] = 0.5
     return P
         
 
 def update_dsgd(worker_list, P, args, probe_valid_loader):
-    # 如果 P为NONe，说明是随机选择worker
+    
     if P is None:
         P = random_p(args.size)
         
@@ -602,7 +584,7 @@ def update_dsgd(worker_list, P, args, probe_valid_loader):
         )
     )
     
-    # 当达到特定步数的时候，所有worker都训练并且记录训练梯度，但是这一次不用更新。
+ 
     for worker in worker_list:
         
         worker.step(probe_valid_loader)         
@@ -779,7 +761,7 @@ def save_model(center_model, train_acc, epoch, args, log_id):
     torch.save(state, os.path.join(args.perf_dict_dir, f"{log_id}.t7"))
 
 def writein_file(acc, name, rank):
-    run_path = "/mnt/nas/share2/home/lwh/DLS/variable_record/"
+    run_path = "./variable_record/"
     if not os.path.exists(run_path):
     # 如果文件夹不存在，则创建它
         os.makedirs(run_path)
@@ -817,7 +799,7 @@ class Merge_History:
     
 def second_largest_index(lst):
     if len(lst) < 2:
-        raise ValueError("列表中至少需要有两个元素")
+        raise ValueError("at lease two elements")
 
     # 初始化最大值和第二大值
     max_value = max(lst[0], lst[1])
@@ -862,7 +844,7 @@ def choose_merge(worker, eval_result, model_dict_list, history, pointer, second_
 
 def record_info(eval_all, action, choose_which):
     # 打开一个文件以进行写入操作（如果文件不存在，会创建新文件；如果文件存在，会覆盖原有内容）
-    with open(f'/mnt/csp/mmvision/home/lwh/DLS/heuristic2_record_choose{choose_which}.json', 'a') as file:
+    with open(f'./heuristic2_record_choose{choose_which}.json', 'a') as file:
         content = {"eval": eval_all, "worker0": action[0], "worker1": action[1], "worker2": action[2], "worker3": action[3], "worker4": action[4]}
         json.dump(content, file, indent=4)
      
@@ -982,14 +964,13 @@ def compute_loss_every_epoch(loss):
 
 def search_model(worker_list, P, args, probe_valid_loader):
 
-    # 要对choose worker的每个邻居都找到其邻居
     neighbor_worker = list()
     for i in range(args.size):
         p = P[i][args.choose_node]
         if p != 0 and i != args.choose_node:
             # print(f"neighbor node: {i}")
             neighbor_worker.append(worker_list[i])
-    # 对每个neighbor先找到其接受权重的其他节点
+ 
     examine_list = list()
     for worker in neighbor_worker:
         search_list = list()
@@ -1001,9 +982,7 @@ def search_model(worker_list, P, args, probe_valid_loader):
             if p != 0 and i != worker.rank:
                 search_list.append(worker_list[i])
         for examiner in search_list:
-            # 计算这些要检查的worker和当前worker的梯度内积
-            # print('worker',worker.grads_after_choosebatch)
-            # print('examiner',examiner.grads_train)
+      
             dot_ = sum(torch.sum(g1 * g2) for g1, g2 in zip(worker.grads_after_choosebatch, examiner.grads_train)).item()
             
             result[f'neighbor:rank{examiner.rank}'] = dot_
@@ -1050,10 +1029,7 @@ def eval_secondnei(worker_list, P, args, probe_valid_loader, second_neighbor):
                                                        worker_list[args.choose_node].grads_train,
                                                        worker_list[firstnei].current_lr)
             secondnei_influence = (-1) * secondnei_influence * weight * firstnei_Weight
-            # secondnei_grads_after_merge = torch.tensor(worker_list[secondnei].secondnei_grads_after_merge).unsqueeze(0)
-            # hessian = worker_list[firstnei].firstnei_hessian
-            # train_grads = torch.tensor(worker_list[args.choose_node].grads_train).unsqueeze(0)
-            # secondnei_influence = (-1) * torch.matmul(torch.matmul(secondnei_grads_after_merge, hessian), train_grads) * weight * firstnei_Weight
+           
             neidict[f'node{secondnei}'] = secondnei_influence.item()
         secondnei_influencedict[f'node{firstnei}'] = neidict
     return secondnei_influencedict
@@ -1078,65 +1054,61 @@ def eval_thirdnei(worker_list, P, args, probe_valid_loader, second_neighbor):
                                                                    current_lr1=worker_list[firstnei].current_lr,
                                                                    current_lr2=worker_list[secondnei].current_lr)
                 thirdnei_influence = (-1) * thirdnei_influence * weight * firstnei_Weight * secondnei_Weight
-                # secondnei_grads_after_merge = torch.tensor(worker_list[secondnei].secondnei_grads_after_merge).unsqueeze(0)
-                # hessian = worker_list[firstnei].firstnei_hessian
-                # train_grads = torch.tensor(worker_list[args.choose_node].grads_train).unsqueeze(0)
-                # secondnei_influence = (-1) * torch.matmul(torch.matmul(secondnei_grads_after_merge, hessian), train_grads) * weight * firstnei_Weight
+               
                 neidict[f'node{thirdnei}'] = thirdnei_influence.item()
             secondneidict[f'node{secondnei}'] = neidict
         thirdnei_influencedict[f'node{firstnei}'] = secondneidict 
     return thirdnei_influencedict
 
 def compute_grad_and_hvp(model1_params, grad1, grad2, grad3, current_lr):
-    # 将 grad1 展平为一维向量
+
     grad1_flat = torch.cat([g.reshape(-1) for g in grad1])
    
-    # 将 grad2 展平为一维向量
+
     grad2_flat = torch.cat([g.reshape(-1) for g in grad2])
     
     with torch.autograd.set_detect_anomaly(True):
-        # 计算 Hessian-vector 乘积 (Hessian × grad2)
+    
         hvp = torch.autograd.grad(grad1_flat, model1_params, grad_outputs=grad2_flat, retain_graph=True)
     
-    # 将 hvp 展平为一维向量
+   
     hvp_flat = torch.cat([h.reshape(-1) for h in hvp])
     
-    # 计算 (I - Hessian) × grad2 = grad2 - (Hessian × grad2)
+   
     ihvp_flat = grad2_flat - hvp_flat * current_lr
     
-    # 将 grad3 展平为一维向量
+  
     grad3_flat = torch.cat([g.reshape(-1) for g in grad3])
     
-    # 计算最终结果 (grad3^T × (I - Hessian) × grad2)
+   
     result = torch.dot(grad3_flat, ihvp_flat)
     
     return result
 
 def thirdnei_compute_grad_and_hvp(model1_params, model2_params, grad1, grad2, grad3, grad4, current_lr1, current_lr2):
-    # 将 grad1, grad2, grad3, grad4 展平为一维向量
-    # grad3 ×(I−Hessian1)×(I−Hessian2)×grad4
+  
     grad1_flat = torch.cat([g.reshape(-1) for g in grad1])
     grad2_flat = torch.cat([g.reshape(-1) for g in grad2])
     grad3_flat = torch.cat([g.reshape(-1) for g in grad3])
     grad4_flat = torch.cat([g.reshape(-1) for g in grad4])
 
-    # 计算 (I - Hessian2) × grad4
+    #  (I - Hessian2) × grad4
     with torch.autograd.set_detect_anomaly(True):
-        # 计算 Hessian2 × grad4
+        #  Hessian2 × grad4
         hvp2 = torch.autograd.grad(grad2_flat, model2_params, grad_outputs=grad4_flat, retain_graph=True)
         hvp2_flat = torch.cat([h.reshape(-1) for h in hvp2])
-        # 计算 (I - Hessian2) × grad4 = grad4 - (Hessian2 × grad4)
+        #  (I - Hessian2) × grad4 = grad4 - (Hessian2 × grad4)
         ihvp2_flat = grad4_flat - hvp2_flat * current_lr1
 
-    # 计算 (I - Hessian1) × (I - Hessian2) × grad4
+    #  (I - Hessian1) × (I - Hessian2) × grad4
     with torch.autograd.set_detect_anomaly(True):
-        # 计算 Hessian1 × (I - Hessian2) × grad4
+        #  Hessian1 × (I - Hessian2) × grad4
         hvp1 = torch.autograd.grad(grad1_flat, model1_params, grad_outputs=ihvp2_flat, retain_graph=True)
         hvp1_flat = torch.cat([h.reshape(-1) for h in hvp1])
-        # 计算 (I - Hessian1) × (I - Hessian2) × grad4 = (I - Hessian2) × grad4 - (Hessian1 × (I - Hessian2) × grad4)
+        #  (I - Hessian1) × (I - Hessian2) × grad4 = (I - Hessian2) × grad4 - (Hessian1 × (I - Hessian2) × grad4)
         ihvp1_flat = ihvp2_flat - hvp1_flat * current_lr2
 
-    # 计算最终结果 grad3^T × (I - Hessian1) × (I - Hessian2) × grad4
+    #  grad3^T × (I - Hessian1) × (I - Hessian2) × grad4
     result = torch.dot(grad3_flat, ihvp1_flat)
 
     return result

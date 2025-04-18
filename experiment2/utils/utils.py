@@ -411,9 +411,9 @@ def update_dqn_chooseone_debug(worker_list, center_model):
 def random_p(size):
     P = torch.zeros((size, size))
     P.fill_diagonal_(0.5) 
-    # 在每一行随机选择一个其他位置设置为 0.5
+    
     for i in range(size):
-        # 随机选择一个列索引，但不能是当前行的对角线位置
+     
         random_col = random.choice([j for j in range(size) if j != i])
         P[i, random_col] = 0.5
     return P
@@ -432,7 +432,7 @@ def update_dsgd(worker_list, P, args, probe_valid_loader):
         )
     )
     
-    # 当达到特定步数的时候，所有worker都训练并且记录训练梯度，但是这一次不用更新。
+   
     for worker in worker_list:
         
         worker.step(probe_valid_loader)         
@@ -651,13 +651,13 @@ def second_largest_index(lst):
     if len(lst) < 2:
         raise ValueError("列表中至少需要有两个元素")
 
-    # 初始化最大值和第二大值
+ 
     max_value = max(lst[0], lst[1])
     second_max_value = min(lst[0], lst[1])
     max_index = lst.index(max_value)
     second_max_index = lst.index(second_max_value)
 
-    # 遍历列表找到第二大的元素
+  
     for i in range(2, len(lst)):
         if lst[i] > max_value:
             second_max_value = max_value
@@ -671,11 +671,11 @@ def second_largest_index(lst):
     return second_max_index
 
 def get_sorted_indices(lst):
-    # 使用 enumerate 获取元素及其索引的元组列表
+   
     indexed_list = list(enumerate(lst))
     # 按元素值从大到小排序
     sorted_indexed_list = sorted(indexed_list, key=lambda x: x[1], reverse=True)
-    # 提取排序后的索引
+  
     sorted_indices = [index for index, value in sorted_indexed_list]
     return sorted_indices
   
@@ -693,8 +693,8 @@ def choose_merge(worker, eval_result, model_dict_list, history, pointer, second_
         return max_index
 
 def record_info(eval_all, action, choose_which):
-    # 打开一个文件以进行写入操作（如果文件不存在，会创建新文件；如果文件存在，会覆盖原有内容）
-    with open(f'/mnt/csp/mmvision/home/lwh/DLS/heuristic2_record_choose{choose_which}.json', 'a') as file:
+  
+    with open(f'./heuristic2_record_choose{choose_which}.json', 'a') as file:
         content = {"eval": eval_all, "worker0": action[0], "worker1": action[1], "worker2": action[2], "worker3": action[3], "worker4": action[4]}
         json.dump(content, file, indent=4)
      
@@ -814,14 +814,14 @@ def compute_loss_every_epoch(loss):
 
 def search_model(worker_list, P, args, probe_valid_loader):
 
-    # 要对choose worker的每个邻居都找到其邻居
+
     neighbor_worker = list()
     for i in range(args.size):
         p = P[i][args.choose_node]
         if p != 0 and i != args.choose_node:
             # print(f"neighbor node: {i}")
             neighbor_worker.append(worker_list[i])
-    # 对每个neighbor先找到其接受权重的其他节点
+   
     examine_list = list()
     for worker in neighbor_worker:
         search_list = list()
@@ -833,9 +833,7 @@ def search_model(worker_list, P, args, probe_valid_loader):
             if p != 0 and i != worker.rank:
                 search_list.append(worker_list[i])
         for examiner in search_list:
-            # 计算这些要检查的worker和当前worker的梯度内积
-            # print('worker',worker.grads_after_choosebatch)
-            # print('examiner',examiner.grads_train)
+          
             dot_ = sum(torch.sum(g1 * g2) for g1, g2 in zip(worker.grads_after_choosebatch, examiner.grads_train)).item()
             
             result[f'neighbor:rank{examiner.rank}'] = dot_

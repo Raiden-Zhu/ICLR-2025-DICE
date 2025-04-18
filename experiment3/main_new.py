@@ -152,16 +152,6 @@ def main(
     specific_batch = get_specific_batch(train_dataloaders, args)
     for rank in range(args.size):
 
-        # train_loader, _, _, classes = load_dataset(
-        #     root=args.dataset_path,
-        #     name=args.dataset_name,
-        #     image_size=args.image_size,
-        #     train_batch_size=args.batch_size,
-        #     distribute=True,
-        #     rank=rank,
-        #     split=split,
-        #     seed=args.seed,
-        # )
         train_loader = train_dataloaders[rank]
         trainloader_length_list.append(len(train_loader))
         model = load_model(args.model, nb_class, pretrained=args.pretrained, args=args, nb_class= nb_class).to(
@@ -199,7 +189,7 @@ def main(
     estimation_list = []
     dot_list = []
     for iteration in trange(steps):
-        # 这里的epoch是平均epoch
+        # compute current epoch by computing average epoch of each trainloader
         current_epoch = iteration // (
             sum(trainloader_length_list) / len(trainloader_length_list)
         )
@@ -208,7 +198,7 @@ def main(
         # for worker in worker_list:
         # worker.update_iter()
 
-        # 对每个trainloader检测是否遍历完，如果遍历完 则对应的worker 更新trainloader
+        # for each dataloader in trainloader_list, if iteration % length of dataloader == 0, update iter of worker
         for i in range(0, args.size):
             if iteration % trainloader_length_list[i] == 0:
                 worker_list[i].update_iter()
@@ -255,7 +245,7 @@ if __name__ == "__main__":
 
     # 定义参数字典
     params = {
-        "dataset_path": "/mnt/csp/mmvision/home/lwh/FLASH-RL/data",
+        "dataset_path": "./data",
         "dataset_name": sys.argv[6],
         "image_size": 28,
         "batch_size": int(sys.argv[4]),
@@ -289,48 +279,16 @@ if __name__ == "__main__":
 
     estimation_list, trainacc_list, validacc_list, record, self_influence, firstnei_influence, secondnei_influencedict, thirdnei_influencedict = main(**params)
     result_dict = {}
-    # for small_list in estimation_list:
-    # # 遍历小列表中的每个值
-    #     for index, value in enumerate(small_list):
-    #         # 如果索引不在字典中，初始化为0
-    #         if index not in result_dict:
-    #             result_dict[index] = 0
-    #         # 累加值到字典中
-    #         result_dict[index] += value
-    # result_dict['estimation_list'] = estimation_list
     result_dict['self_influence'] = self_influence
     result_dict['secondnei_influencedict'] = secondnei_influencedict
     result_dict['firstnei_influence'] = firstnei_influence
     result_dict['thirdnei_influencedict'] = thirdnei_influencedict
-    # result_dict['train_acc'] = trainacc_list
-    # result_dict['valid_acc'] = validacc_list
-    # result_dict['record'] = record
+
 
             
         
-    os.makedirs(f"/mnt/csp/mmvision/home/lwh/DLS_2/loss_record/{sys.argv[6]}_epochs{sys.argv[8]}_data{sys.argv[3]}_batchsize{sys.argv[4]}_mode{sys.argv[7]}_size{sys.argv[5]}_{sys.argv[10]}_noniid{sys.argv[11]}_chooseepoch{sys.argv[12]}/", exist_ok=True)
-    with open(f"/mnt/csp/mmvision/home/lwh/DLS_2/loss_record/{sys.argv[6]}_epochs{sys.argv[8]}_data{sys.argv[3]}_batchsize{sys.argv[4]}_mode{sys.argv[7]}_size{sys.argv[5]}_{sys.argv[10]}_noniid{sys.argv[11]}_chooseepoch{sys.argv[12]}/node:{sys.argv[1]}_batch:{sys.argv[2]}.json", 'w') as f:
+    os.makedirs(f"./loss_record/{sys.argv[6]}_epochs{sys.argv[8]}_data{sys.argv[3]}_batchsize{sys.argv[4]}_mode{sys.argv[7]}_size{sys.argv[5]}_{sys.argv[10]}_noniid{sys.argv[11]}_chooseepoch{sys.argv[12]}/", exist_ok=True)
+    with open(f"./loss_record/{sys.argv[6]}_epochs{sys.argv[8]}_data{sys.argv[3]}_batchsize{sys.argv[4]}_mode{sys.argv[7]}_size{sys.argv[5]}_{sys.argv[10]}_noniid{sys.argv[11]}_chooseepoch{sys.argv[12]}/node:{sys.argv[1]}_batch:{sys.argv[2]}.json", 'w') as f:
         
         json.dump(result_dict, f, indent=4)
-    
-    '''
-    params['train_to_end'] = False
-    loss_list_not_to_end, estimation_list, sum_estimation, dot_list, loss_every_epoch, loss_estimation, loss_estimation_list = main(**params)
-    groundtruth = sum((a - b) for a, b in zip(loss_list_not_to_end, loss_list_to_end))
-    data = {
-        "loss_list_to_end": loss_list_to_end,
-        "loss_list_not_to_end": loss_list_not_to_end,
-        "estimation_list": estimation_list,
-        "dot_list": dot_list,
-        "sum_estimation": sum_estimation,
-        "groundtruth": groundtruth,
-        "loss_every_epoch": loss_every_epoch,
-        "loss_estimation": loss_estimation,
-        "loss_estimation_list": loss_estimation_list
-    }
-    
-    os.makedirs(f"/mnt/csp/mmvision/home/lwh/DLS_1/loss_record/{sys.argv[6]}_epochs{sys.argv[8]}_data{sys.argv[3]}_batchsize{sys.argv[4]}_mode{sys.argv[7]}_size{sys.argv[5]}_{sys.argv[10]}_noniid{sys.argv[11]}/", exist_ok=True)
-    with open(f"/mnt/csp/mmvision/home/lwh/DLS_1/loss_record/{sys.argv[6]}_epochs{sys.argv[8]}_data{sys.argv[3]}_batchsize{sys.argv[4]}_mode{sys.argv[7]}_size{sys.argv[5]}_{sys.argv[10]}_noniid{sys.argv[11]}/node:{sys.argv[1]}_batch:{sys.argv[2]}.json", 'w') as f:
-        
-        json.dump(data, f, indent=4)
-        '''
+   

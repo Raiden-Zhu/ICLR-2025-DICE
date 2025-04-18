@@ -25,16 +25,15 @@ def load_mnist(
             ]
         )
 
-    # 加载 MNIST 数据集
+
     train_set = datasets.MNIST(root, train=True, transform=transforms, download=True)
     valid_set = datasets.MNIST(root, train=False, transform=transforms, download=True)
 
-    # 如果 debug 模式，只取前 128 个样本
+
     if debug:
         train_set = Subset(train_set, range(train_batch_size))
         valid_set = Subset(valid_set, range(5*valid_batch_size))
 
-    # 如果需要返回 DataLoader
     if return_dataloader:
         train_loader = DataLoader(
             train_set, batch_size=train_batch_size, shuffle=False, drop_last=True
@@ -44,5 +43,4 @@ def load_mnist(
         )
         return train_loader, valid_loader, (1, image_size, image_size), 10
 
-    # 返回数据集和图像尺寸
     return train_set, valid_set, (1, image_size, image_size), 10

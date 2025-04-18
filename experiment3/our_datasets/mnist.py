@@ -15,26 +15,26 @@ def load_mnist(
     debug=False,
 ):
     set_seed(seed)
-    # 默认的 transforms
+  
     if transforms is None:
         transforms = tfs.Compose(
             [
                 tfs.Resize((image_size, image_size)),
                 tfs.ToTensor(),
-                tfs.Normalize((0.1307,), (0.3081,)),  # MNIST 的均值和标准差
+                tfs.Normalize((0.1307,), (0.3081,)), 
             ]
         )
 
-    # 加载 MNIST 数据集
+   
     train_set = datasets.MNIST(root, train=True, transform=transforms, download=True)
     valid_set = datasets.MNIST(root, train=False, transform=transforms, download=True)
 
-    # 如果 debug 模式，只取前 128 个样本
+  
     if debug:
         train_set = Subset(train_set, range(train_batch_size))
         valid_set = Subset(valid_set, range(5*valid_batch_size))
 
-    # 如果需要返回 DataLoader
+ 
     if return_dataloader:
         train_loader = DataLoader(
             train_set, batch_size=train_batch_size, shuffle=False, drop_last=True
