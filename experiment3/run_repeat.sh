@@ -3,7 +3,7 @@
 # Define the path to the Python file to run
 PYTHON_FILE="./main_new.py"
 
-# Define parameter ranges
+# Set hyperparameters
 param1_range=(0) # choose node
 param2_range=(4) # choose batch
 node_datasize=500
