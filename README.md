@@ -2,12 +2,15 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Faaron_lou%2Fstatus%2F1646528998594482176%3Fs%3D20)](https://x.com/Raiden13238619/status/1882111164735512790)
+[![slides](https://img.shields.io/badge/Slides-blue)](https://github.com/Raiden-Zhu/ICLR-2025-DICE/blob/main/Slides_DICE.pdf)
+[![poster](https://img.shields.io/badge/Poster-green)](https://github.com/Raiden-Zhu/ICLR-2025-DICE/blob/main/Poster_DICE.png)
 
-This repo contains source code for reproducing the main empirical results in DICE paper. The following is a detailed guide on how to install dependencies and run the experiments.
 
 <div style="text-align: center;">
   <img src="./Poster_DICE.png" alt="DICE" width="100%"/>
 </div>
+
+This repo contains source code for reproducing the main empirical results in DICE paper. The following is a detailed guide on how to install dependencies and run the experiments.
 
 ## Table of Contents
 - [Installation](#installation)
