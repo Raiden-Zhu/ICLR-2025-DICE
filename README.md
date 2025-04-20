@@ -5,6 +5,10 @@
 
 This repo contains source code for reproducing the main empirical results in DICE paper. The following is a detailed guide on how to install dependencies and run the experiments.
 
+<div style="text-align: center;">
+  <img src="./Poster_DICE.png" alt="DICE" width="100%"/>
+</div>
+
 ## Table of Contents
 - [Installation](#installation)
 - [Running Experiments](#running-experiments)
