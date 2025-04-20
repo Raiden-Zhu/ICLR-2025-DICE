@@ -1,9 +1,11 @@
 # [ICLR 2025] _DICE: Data Influence Cascade in Decentralized Learning_
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Faaron_lou%2Fstatus%2F1646528998594482176%3Fs%3D20)](https://x.com/Raiden13238619/status/1882111164735512790)
+[![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Faaron_lou%2Fstatus%2F1646528998594482176%3Fs%3D20)](https://x.com/Raiden13238619/status/1882111164735512790)
 [![slides](https://img.shields.io/badge/Slides-blue)](https://github.com/Raiden-Zhu/ICLR-2025-DICE/blob/main/Slides_DICE.pdf)
 [![poster](https://img.shields.io/badge/Poster-green)](https://github.com/Raiden-Zhu/ICLR-2025-DICE/blob/main/Poster_DICE.png)
+[![poster](https://img.shields.io/badge/Video_(ICLR_Website)-gray)](https://iclr.cc/virtual/2025/poster/31136)
+[![poster](https://img.shields.io/badge/Video_(Chinese)-gray)](https://www.bilibili.com/video/BV1vwQrY5Et7/?buvid=XUFF680FF7C1ABA2FFD32DD9B756BF18C040C&is_story_h5=false&mid=lVabSomKEmqYwodmqWa%2B0A%3D%3D&plat_id=240&share_from=ugc&share_medium=android&share_plat=android&share_source=WEIXIN&share_tag=s_i&spmid=dt.space-dt.0.0&timestamp=1742098984&unique_k=NGTUExG&up_id=503316308&vd_source=18cb2457b9e9e0bb4339e9c9817a6ec4)
 
 
 <div style="text-align: center;">
