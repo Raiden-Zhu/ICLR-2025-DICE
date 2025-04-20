@@ -1,6 +1,6 @@
 <div align="center">
   
-# [ICLR'25] _DICE: Data Influence Cascade in Decentralized Learning_
+## [ICLR 2025] 🎲 _DICE: Data Influence Cascade in Decentralized Learning_
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Faaron_lou%2Fstatus%2F1646528998594482176%3Fs%3D20)](https://x.com/Raiden13238619/status/1882111164735512790)
@@ -18,7 +18,7 @@
 
 This repo contains source code for reproducing the main empirical results in DICE paper. The following is a detailed guide on how to install dependencies and run the experiments.
 
-## Table of Contents
+### Table of Contents
 - [Installation](#installation)
 - [Running Experiments](#running-experiments)
 - [Project Structure](#project-structure)
@@ -26,12 +26,12 @@ This repo contains source code for reproducing the main empirical results in DIC
 - [Citation](#Citation)
 - [Contact Information](#Contact)
 
-## Installation
-### Prerequisites
+### Installation
+#### Prerequisites
 - Ensure you have Python installed on your system.
 - `pip` should be available for package installation.
 
-### Steps
+#### Steps
 1. Clone the repository to your local machine:
 ```bash
 git clone https://github.com/Raiden-Zhu/ICLR-2025-DICE.git
@@ -42,10 +42,10 @@ cd ICLR-2025-DICE
 pip install -r requirements.txt
 ```
 
-## Running Experiments
+### Run Experiments
 This project contains three sets of experiments, each corresponding to a different directory. You can run the experiments by following these steps:
 
-### Experiment 1 (Influence Alignment)
+#### Experiment 1 (Influence Alignment)
 In this experiment, we calculate the actual and estimated values of the **one-hop** DICE value. The results are written into the corresponding JSON files in the `experiment1/loss_record` folder.
 Please navigate to the `experiment1` directory and execute the `run.sh` script:
 ```bash
@@ -53,7 +53,7 @@ cd experiment1
 bash run_repeat.sh
 ```
 
-### Experiment 2 (Anomaly Detection)
+#### Experiment 2 (Anomaly Detection)
 In this experiment, we calculate and compare the influence indicators (i.e., gradient dot product derived via one-hop DICE value) of normal nodes and abnormal nodes. The  results are written into the corresponding JSON files in the `experiment2/loss_record` folder.
 Similarly, for Experiment 2, please move to the `experiment2` directory and run the `run.sh` script:
 ```bash
@@ -61,7 +61,7 @@ cd ../experiment2
 bash run_repeat.sh
 ```
 
-### Experiment 3 (Influence Cascade)
+#### Experiment 3 (Influence Cascade)
 In this experiment, we calculate **multi-hop** DICE value. The results are written into the corresponding JSON files in the `experiment3/loss_record` folder.
 To run Experiment 3, enter the `experiment3` directory and execute the `run.sh` script:
 ```bash
@@ -69,7 +69,7 @@ cd ../experiment3
 bash run_repeat.sh
 ```
 
-## Project Structure
+### Project Structure
 ```plaintext
 ICLR-2025-DICE/
 │
